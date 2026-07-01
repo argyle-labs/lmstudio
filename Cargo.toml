@@ -2,6 +2,10 @@
 name = "lmstudio"
 version = "0.1.0"
 edition = "2021"
+description = "LM Studio local LLM runner — orca service-backend"
+
+[package.metadata.orca]
+category = "ai"
 
 [lib]
 name = "lmstudio"
