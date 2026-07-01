@@ -1,19 +1,28 @@
+<p align="center">
+  <img src="assets/icon-256.png" width="120" alt="lmstudio" />
+</p>
+
 # lmstudio
 
-LM Studio local LLM runner (host desktop app) — a first-party [orca](https://github.com/argyle-labs/orca) **service-backend**
-plugin. It registers a `ServiceBackend` and exposes **no tools of its own**: orca
-drives every plugin through the single generic `service.*` surface — `list`,
-`deploy`, `backup`, `restore`, `configure`, `status`. Rich, lmstudio-specific data is
-surfaced through the **typed `service.status` payload**, never bespoke tools (one
-small API for the whole fleet).
+LM Studio is a desktop app that runs local LLMs behind an OpenAI-compatible server — install it on the host and connect.
 
-**Runtimes:** host.
+A first-party [orca](https://github.com/argyle-labs/orca) plugin (model provider).
 
-**Design — pure Rust, zero bash.** No `compose.yml`, `Dockerfile`, or provision
-scripts. Deployment is rendered by orca's `deploy_target` from the backend's
-`WorkloadSpec`; backup/restore run through the pluggable `BackupMethod` (tar for
-containers/LXC, **Proxmox Backup Server** for Proxmox guests when available);
-`configure`/`status` call the upstream API. The only per-plugin code is the
-declarative descriptor plus `workload_spec`/`configure`/`status`.
+This is a **backend/adapter** — it has no service of its own; it wires an existing system into orca.
 
-See [CAPABILITIES.md](CAPABILITIES.md) for the contract checklist.
+---
+
+## Run it without orca
+
+There's nothing to deploy: this plugin drives software you already run (upstream: <https://lmstudio.ai/>). Install/configure that directly, then register it with orca.
+
+
+## With orca
+
+orca drives this plugin through its generic surface — rich, lmstudio-specific data comes back in the typed `service.status` payload, never bespoke tools.
+
+## Layout
+
+- `src/` — the plugin (pure Rust): the `ServiceBackend` descriptor + `configure` / `status`.
+- [CAPABILITIES.md](CAPABILITIES.md) — the service-backend contract checklist.
+- `assets/` — plugin icon.
